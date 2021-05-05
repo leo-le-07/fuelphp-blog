@@ -1,7 +1,7 @@
 <?php
 class Model_Book extends Orm\Model {
     protected static $_connection = 'production';
-    protected static $_table_name = 'book';
+    protected static $_table_name = 'books';
     protected static $_primary_key = array('id');
 
     protected static $_properties = array (

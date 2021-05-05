@@ -198,8 +198,8 @@ return array(
 	 *
 	 */
 
-	// 'log_threshold'   => Fuel::L_WARNING,
-	// 'log_path'        => APPPATH.'logs/',
+	'log_threshold'   => Fuel::L_DEBUG,
+	'log_path'        => APPPATH.'logs/',
 	// 'log_date_format' => 'Y-m-d H:i:s',
 
 	/**
@@ -228,7 +228,7 @@ return array(
 		 * ---------------------------------------------------------------------
 		 */
 
-		// 'token_salt' => 'put your salt value here to make the token more secure',
+		'token_salt' => 'secret_token_salt',
 
 		/**
 		 * ---------------------------------------------------------------------
@@ -469,6 +469,7 @@ return array(
 
 		 'packages' => array(
 		 	 'orm',
+             'auth'
 		 ),
 
 		/**

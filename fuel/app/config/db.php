@@ -22,11 +22,9 @@
 
 return array(
     'production' => array (
-        'type'           => 'mysqli',
+        'type'           => 'pdo',
         'connection'     => array (
-            'hostname'       => 'localhost',
-            'port'           => '3306',
-            'database'       => 'book_db',
+            'dsn'            => 'mysql:host=localhost;dbname=book_db',
             'username'       => 'root',
             'password'       => '',
             'persistent'     => false,

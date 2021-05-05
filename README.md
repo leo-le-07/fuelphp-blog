@@ -1,38 +1,80 @@
-# FuelPHP
+# Book project by FuelPHP framework
 
-* Version: 1.8.2
-* [Website](https://fuelphp.com/)
-* [Release Documentation](https://fuelphp.com/docs)
-* [Release API browser](https://fuelphp.com/api)
-* [Development branch Documentation](https://fuelphp.com/dev-docs)
-* [Development branch API browser](https://fuelphp.com/dev-api)
-* [Support Forum](https://forums.fuelphp.com) for comments, discussion and community support
+## Setup
 
-## Description
+We need to set up database first before starting application.
 
-FuelPHP is a fast, lightweight PHP 5.4+ framework. In an age where frameworks are a dime a dozen, we believe that FuelPHP will stand out in the crowd. It will do this by combining all the things you love about the great frameworks out there, while getting rid of the bad.
+Run this script in MySQL console or workbench to create database name `book_db` and its tables `book`, `users`, `sessions`:
 
-FuelPHP is fully PHP 7.3 compatible.
+```mysql
+create database if not exists `book_db`;
+use `book_db`;
+create table if not exists `books` (
+                                       `id` INT PRIMARY KEY AUTO_INCREMENT,
+                                       `title` VARCHAR(80) NOT NULL,
+                                       `author` VARCHAR(80) NOT NULL,
+                                       `price` DECIMAL(10, 2) NOT NULL
+);
+create table if not exists `users`(
+                                      `id` int primary key auto_increment,
+                                      `username` varchar(255) not null,
+                                      `password` varchar(255) not null,
+                                      `email` varchar(255) not null,
+                                      `profile_fields` text not null,
+                                      `group` int not null,
+                                      `last_login` int(20) not null,
+                                      `login_hash` varchar(255) not null,
+                                      `created_at` int not null default '0',
+                                      `updated_at` int not null default '0'
+);
+create table if not exists `sessions` (
+                                          `session_id` varchar(40) primary key not null,
+                                          `previous_id` varchar(40) not null,
+                                          `user_agent` text not null,
+                                          `ip_hash` char(32) not null default '',
+                                          `created` int(10) unsigned not null default '0',
+                                          `updated` int(10) unsigned not null default '0',
+                                          `payload` longtext not null,
+                                          unique key `PREVIOUS`(`previous_id`)
+);
+INSERT
+INTO
+    books(title,
+          author,
+          price)
+VALUES(
+          'The C Programming Language',
+          'Dennie Ritchie',
+          25.00
+      ),(
+          'The C++ Programming Language',
+          'Bjarne Stroustrup',
+          80.00
+      ),(
+          'C Primer Plus (5th Edition)',
+          'Stephen Prata',
+          45.00
+      ),('Modern PHP', 'Josh Lockhart', 10.00),(
+          'Learning PHP, MySQL & JavaScript, 4th Edition',
+          'Robin Nixon',
+          30.00
+      );
+
+```
+
+Install WAMP Server to run application on local.
+
+Copy all project folder into `www` folder of WAMP Server.
+
+Access application at `http://localhost`
 
 ## More information
 
-For more detailed information, see the [development wiki](https://github.com/fuelphp/fuelphp/wiki).
+### Versions
 
-## Development Team
+This is the current version of all main libraries that project is using:
 
-* Harro Verton - Project Manager, Developer ([http://wanwizard.eu/](http://wanwizard.eu/))
-* Emlyn West - Core Developer, ORM
-
-### Want to join?
-
-The FuelPHP development team is always looking for new team members, who are willing to help lift the framework to the next level, and have the commitment to not only produce awesome code, but also great documentation, and support to our users.
-
-You can not apply for membership. Start by sending in pull-requests, work on outstanding feature requests or bugs, and become active in the #fuelphp IRC channel. If your skills are up to scratch, we will notice you, and will ask you to become a team member.
-
-### Alumni
-
-* Márk Sági-Kazár - Developer
-* Frank de Jonge - Developer ([http://frenky.net/](http://frenky.net/))
-* Jelmer Schreuder - Developer ([http://jelmerschreuder.nl/](http://jelmerschreuder.nl/))
-* Phil Sturgeon - Developer ([http://philsturgeon.co.uk](http://philsturgeon.co.uk))
-* Dan Horrigan - Founder, Developer ([http://dhorrigan.com](http://dhorrigan.com))
+* FuelPHP - V.1.8.2
+* MySQL - V.8.0.21
+* PHP - V.7.3.21
+* Apache - V2.4.46
