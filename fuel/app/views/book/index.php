@@ -1,3 +1,10 @@
+<form method="get" action="/book/index">
+    <input type="text" class="form-control" id="search"
+           placeholder="Search book" name="search_book_name"
+           value="<?php echo $search_book_name; ?>"
+    />
+    <button type="submit" class="btn btn-primary"> Search </button>
+</form>
 <table class = "table">
     <thead>
     <tr>
@@ -20,8 +27,13 @@
             <td><?php echo $book['author']; ?></td>
             <td><?php echo $book['price']; ?></td>
             <td>
-                <a href = "/book/edit/<?php echo $book['id']; ?>">Edit</a>
-                <a href = "/book/delete/<?php echo $book['id']; ?>">Delete</a>
+                <?php if (Auth::member(100)): ?>
+                    <a href = "/book/edit/<?php echo $book['id']; ?>">Edit</a>
+                    <a href = "/book/delete/<?php echo $book['id']; ?>">Delete</a>
+                <?php endif; ?>
+                <?php if (Auth::member(1)): ?>
+                    <a href = "">Hire</a>
+                <?php endif; ?>
             </td>
         </tr>
 

@@ -34,6 +34,7 @@
                 <li class = "active"><a href = "/book/index">Home</a></li>
                 <li><a href = "/book/add">Add book</a></li>
                 <li><a href="/login/logout">Log out</a></li>
+                <li class="text-light ">Welcome <?php echo Auth::get_screen_name() ?></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
