@@ -5,6 +5,15 @@
     />
     <button type="submit" class="btn btn-primary"> Search </button>
 </form>
+<ul>
+    <?php
+    foreach ($categories as $category) {
+    ?>
+        <a href = "/book/index?selected_category=<?php echo $category['code']; ?>"><?php echo $category['name']; ?></a>
+        <?php
+    }
+    ?>
+</ul>
 <table class = "table">
     <thead>
     <tr>

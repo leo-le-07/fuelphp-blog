@@ -20,22 +20,53 @@ class Controller_Book extends Controller_Template {
     public function action_index() {
         $books = NULL;
         $search_book_name = \Input::param('search_book_name');
+        $selected_category = \Input::param('selected_category');
 
         // Create the view object
         $view = View::forge('book/index');
 
-        if (empty($search_book_name)) {
-            $books = Model_Book::find('all');
+        if (empty($selected_category)) {
+            if (empty($search_book_name)) {
+                $books = Model_Book::find('all');
+            } else {
+                $books = Model_Book::find('all', array(
+                    'where' => array(
+                        array('title', 'LIKE', $search_book_name.'%')
+                    ),
+                ));
+            }
         } else {
-            $books = Model_Book::find('all', array(
-               'where' => array(
-                   array('title', 'LIKE', $search_book_name.'%')
-               ),
-            ));
+            if (empty($search_book_name)) {
+                $books = Model_Book::find('all', array(
+                    'related' => array(
+                        'category' => array(
+                            'where' => array(
+                                array('code', '=', $selected_category)
+                            )
+                        )
+                    )
+                ));
+            } else {
+                $books = Model_Book::find('all', array(
+                    'where' => array(
+                        array('title', 'LIKE', $search_book_name.'%')
+                    ),
+                    'related' => array(
+                        'category' => array(
+                            'where' => array(
+                                array('code', '=', $selected_category)
+                            )
+                        )
+                    )
+                ));
+            }
         }
+
+        $categories = Model_Category::find('all');
 
         $view->set('books', $books);
         $view->set('search_book_name', $search_book_name);
+        $view->set('categories', $categories);
 
         // set the template variables
         $this->template->title = "Book index page";
