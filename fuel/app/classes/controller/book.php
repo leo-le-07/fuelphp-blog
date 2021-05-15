@@ -75,4 +75,50 @@ class Controller_Book extends Controller_Template {
 
         Log::debug('Checking auth');
     }
+    public function action_add() {
+
+        // create a new fieldset and add book model
+        $fieldset = Fieldset::forge('book')->add_model('Model_Book');
+        $fieldset->delete('category_id');
+        // get form from fieldset
+        $form = $fieldset->form();
+
+        // add category to the form
+        $categories = Model_Category::find('all');
+        $op = array();
+        foreach ($categories as $category) {
+            $op[$category['id']] = $category['name'];
+        }
+
+        $form->add(
+            'category', '',
+            array('options' => $op, 'type' => 'radio', 'value' => 'true')
+        );
+        // add submit button to the form
+        $form->add('Submit', '', array('type' => 'submit', 'value' => 'Submit'));
+
+
+        // build the form  and set the current page as action
+        $formHtml = $fieldset->build(Uri::create('book/add'));
+        $view = View::forge('book/add');
+        $view->set('form', $formHtml, false);
+
+        if (Input::param() != array()) {
+            try {
+                $book = Model_Book::forge();
+                $book->title = Input::param('title');
+                $book->author = Input::param('author');
+                $book->price = Input::param('price');
+                $book->category_id= Input::param('category');
+
+                Log::debug('selected category '.$book->category_id);
+                Log::debug('selected category '.Input::param('category'));
+                $book->save();
+                Response::redirect('book');
+            } catch (Orm\ValidationFailed $e) {
+                $view->set('errors', $e->getMessage(), false);
+            }
+        }
+        $this->template->title = "Book add page";
+        $this->template->content = $view; }
 }

@@ -39,6 +39,13 @@ class Model_Book extends Orm\Model {
                 'type' => 'text'
             ),
         ),
+        'category_id' => array (
+            'data_type' => 'int',
+            'label' => 'Book category',
+            'validation' => array (
+                'required',
+            ),
+        ),
     );
 
     protected static $_belongs_to = array(
